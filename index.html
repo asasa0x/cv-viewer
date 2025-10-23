@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      position: relative;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.25;
+      animation: floatUp 25s linear infinite;
+      z-index: 1;
+    }
+    .shape1 { width: 120px; height: 120px; background: #ff6f61; left: 10%; bottom: -150px; animation-duration: 18s; }
+    .shape2 { width: 180px; height: 180px; background: #ffd166; left: 30%; bottom: -200px; animation-duration: 25s; }
+    .shape3 { width: 100px; height: 100px; background: #06d6a0; left: 70%; bottom: -120px; animation-duration: 20s; }
+    .shape4 { width: 150px; height: 150px; background: #118ab2; left: 85%; bottom: -180px; animation-duration: 30s; }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 0.4; }
+      50% { transform: translateY(-50vh) scale(1.2); opacity: 0.7; }
+      100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+    }
+
+    .container {
+      max-width: 950px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      backdrop-filter: blur(12px);
+      color: #fff;
+      z-index: 10;
+      position: relative;
+      opacity: 0;
+      transform: translateY(-200px);
+    }
+    .container.animate { animation: slideDown 1.5s ease-out forwards; }
+    @keyframes slideDown { 0% { transform: translateY(-300px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+
+    h1 { text-align: center; margin-bottom: 20px; }
+    select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: #fff;
+      color: #333;
+      font-weight: bold;
+    }
+
+   
+    .cv-card {
+      border-radius: 15px;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease, background 0.5s ease;
+      color: #fff;
+      opacity: 1;
+    }
+    .cv-card p, .cv-card h2, .cv-card h3 { color: #fff; }
+
+    .cv-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.6); }
+
+    .cv-header { text-align: center; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-bottom: 15px; }
+    .cv-header h2 { margin: 0; font-size: 26px; }
+    .cv-pic { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .cv-section { margin-bottom: 15px; }
+    .cv-section h3 { margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; font-size: 18px; text-transform: uppercase; }
+    .cv-section p { margin: 5px 0; }
+    .cv-skills span { display: inline-block; background: rgba(255,255,255,0.3); padding: 5px 10px; margin: 4px; border-radius: 6px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="shape shape1"></div>
+  <div class="shape shape2"></div>
+  <div class="shape shape3"></div>
+  <div class="shape shape4"></div>
+
+  <div class="container">
+    <h1>CV Viewer</h1>
+    <select id="cvSelect">
+      <option value="">-- Select CV --</option>
+      <option value="cv1">CV - Ali Khan</option>
+      <option value="cv2">CV - Ahmed Raza</option>
+      <option value="cv3">CV - Sara Fatima</option>
+      <option value="cv4">CV - Bilal Ahmed</option>
+      <option value="cv5">CV - Zoya Malik</option>
+      <option value="cv6">CV - Hamza Iqbal</option>
+      <option value="cv7">CV - Maria Khan</option>
+      <option value="cv8">CV - Usman Tariq</option>
+    </select>
+
+    <div id="cvDisplay" class="cv-card">
+      <p>Please select a CV from the dropdown.</p>
+    </div>
+  </div>
+
+  <script>
+    const cvData = {
+      cv1: {name:"Ali Khan", title:"Frontend Developer", education:"BS Computer Science - UET Lahore", skills:["HTML","CSS","JavaScript","React"], experience:["Frontend Developer at XYZ Company (2021 - Present)","Intern at WebSoft Solutions (2020 - 2021)"], contact:"alikhan@example.com | +92 300 1234567", image:"https://randomuser.me/api/portraits/men/32.jpg"},
+      cv2: {name:"Ahmed Raza", title:"Business Analyst", education:"MBA - LUMS", skills:["Management","Marketing","Business Strategy"], experience:["Business Analyst at ABC Pvt Ltd (2020 - Present)","Assistant Manager at Star Group (2018 - 2020)"], contact:"ahmedraza@example.com | +92 301 9876543", image:"https://randomuser.me/api/portraits/men/45.jpg"},
+      cv3: {name:"Sara Fatima", title:"Data Scientist", education:"MS Data Science - NUST", skills:["Python","Machine Learning","SQL"], experience:["Data Scientist at TechSoft (2019 - Present)","Junior Analyst at DataHub (2017 - 2019)"], contact:"sarafatima@example.com | +92 302 6543210", image:"https://randomuser.me/api/portraits/women/65.jpg"},
+      cv4: {name:"Bilal Ahmed", title:"UI/UX Designer", education:"BS Design - NCA", skills:["Figma","Adobe XD","Sketch"], experience:["UI/UX Designer at CreativeLabs (2020 - Present)","Intern at DesignHub (2019 - 2020)"], contact:"bilalahmed@example.com | +92 303 1112233", image:"https://randomuser.me/api/portraits/men/50.jpg"},
+      cv5: {name:"Zoya Malik", title:"Software Engineer", education:"BS Software Engineering - FAST", skills:["C++","Java","Python"], experience:["Software Engineer at CodeWorks (2021 - Present)","Intern at DevStudio (2020 - 2021)"], contact:"zoyamalik@example.com | +92 304 3344556", image:"https://randomuser.me/api/portraits/women/68.jpg"},
+      cv6: {name:"Hamza Iqbal", title:"Mobile App Developer", education:"BS Computer Science - UET Lahore", skills:["Flutter","React Native","Dart"], experience:["App Developer at AppTech (2021 - Present)","Intern at MobileSoft (2020 - 2021)"], contact:"hamzaiqbal@example.com | +92 305 5566778", image:"https://randomuser.me/api/portraits/men/56.jpg"},
+      cv7: {name:"Maria Khan", title:"Data Analyst", education:"BS Statistics - LUMS", skills:["Excel","SQL","Power BI"], experience:["Data Analyst at InfoTech (2020 - Present)","Junior Analyst at DataCorp (2018 - 2020)"], contact:"mariakhan@example.com | +92 306 7788990", image:"https://randomuser.me/api/portraits/women/72.jpg"},
+      cv8: {name:"Usman Tariq", title:"DevOps Engineer", education:"BS Computer Science - NUST", skills:["AWS","Docker","Kubernetes"], experience:["DevOps Engineer at CloudTech (2021 - Present)","Intern at ServerOps (2019 - 2021)"], contact:"usmantariq@example.com | +92 307 8899001", image:"https://randomuser.me/api/portraits/men/62.jpg"}
+    };
+
+    const cvBackgrounds = {
+      cv1: 'linear-gradient(135deg, #ff6f61, #ff9472)',
+      cv2: 'linear-gradient(135deg, #6a11cb, #2575fc)',
+      cv3: 'linear-gradient(135deg, #06d6a0, #1b9aaa)',
+      cv4: 'linear-gradient(135deg, #f7971e, #ffd200)',
+      cv5: 'linear-gradient(135deg, #9b5de5, #f15bb5)',
+      cv6: 'linear-gradient(135deg, #00b4d8, #90e0ef)',
+      cv7: 'linear-gradient(135deg, #ff7b54, #ffb199)',
+      cv8: 'linear-gradient(135deg, #43cea2, #185a9d)'
+    };
+
+    document.getElementById("cvSelect").addEventListener("change", function() {
+      const selectedCV = this.value;
+      const display = document.getElementById("cvDisplay");
+
+      display.style.opacity = 0; 
+      setTimeout(() => {
+        if(selectedCV && cvData[selectedCV]){
+          const cv = cvData[selectedCV];
+          display.innerHTML = `
+            <div class="cv-header">
+              <img src="${cv.image}" alt="${cv.name}" class="cv-pic">
+              <h2>${cv.name}</h2>
+              <p>${cv.title}</p>
+            </div>
+            <div class="cv-section">
+              <h3>Education</h3>
+              <p>${cv.education}</p>
+            </div>
+            <div class="cv-section">
+              <h3>Skills</h3>
+              <div class="cv-skills">
+                ${cv.skills.map(skill=>`<span>${skill}</span>`).join('')}
+              </div>
+            </div>
+            <div class="cv-section">
+              <h3>Experience</h3>
+              ${cv.experience.map(exp=>`<p>• ${exp}</p>`).join('')}
+            </div>
+            <div class="cv-section">
+              <h3>Contact</h3>
+              <p>${cv.contact}</p>
+            </div>
+          `;
+          display.style.background = cvBackgrounds[selectedCV];
+        } else {
+          display.innerHTML = "<p>Please select a CV from the dropdown.</p>";
+          display.style.background = 'rgba(255,255,255,0.15)';
+        }
+        display.style.opacity = 1;
+      }, 200);
+    });
+
+    window.addEventListener("load", ()=>{
+      const container = document.querySelector(".container");
+      setTimeout(()=>{ container.classList.add("animate"); },200);
+    });
+  </script>
+</body>
+</html>
